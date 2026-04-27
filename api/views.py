@@ -43,3 +43,13 @@ def delete_student(request, pk):
 
     student.delete()
     return Response({"message": "Deleted successfully"}, status=204)
+
+@api_view(['GET'])
+def get_student(request, pk):
+    try:
+        student = Student.objects.get(id=pk)
+    except Student.DoesNotExist:
+        return Response({"error": "Student not found"}, status=404)
+
+    serializer = StudentSerializer(student)
+    return Response(serializer.data)
