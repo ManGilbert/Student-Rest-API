@@ -33,3 +33,13 @@ def update_student(request, pk):
         return Response(serializer.data)
     return Response(serializer.errors, status=400)
 
+
+@api_view(['DELETE'])
+def delete_student(request, pk):
+    try:
+        student = Student.objects.get(id=pk)
+    except Student.DoesNotExist:
+        return Response({"error": "Student not found"}, status=404)
+
+    student.delete()
+    return Response({"message": "Deleted successfully"}, status=204)
